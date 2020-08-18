@@ -8,6 +8,15 @@ class Speak extends StatefulWidget {
 }
 
 class _SpeakState extends State<Speak> {
+
+  final List<String> kalimat = List<String>());
+  
+  void addItemToList(String isi){
+    setState(() {
+      kalimat.add(isi);
+    });
+  }
+
   final Map<String, HighlightedWord> _highlights = {
     'resonator': HighlightedWord(
       onTap: () => print('resonator'),
@@ -47,20 +56,30 @@ class _SpeakState extends State<Speak> {
           child: Icon(_isListening ? Icons.mic : Icons.mic_none),
         ),
       ),
-      body: SingleChildScrollView(
-        reverse: true,
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
-          child: TextHighlight(
-            text: _text,
-            words: _highlights,
-            textStyle: const TextStyle(
-              fontSize: 32.0,
-              color: Colors.black,
-              fontWeight: FontWeight.w400,
+      body: Column(
+        children: <Widget>[
+          Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.all(8),
+                addItemToList(_text);
+                itemCount: kalimat.length,
+                itemBuilder: (BuildContext context, int index){
+                  return Container(
+                    padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
+                    child: TextHighlight(
+                      text: kalimat[index],
+                      words: _highlights,
+                      textStyle: const TextStyle(
+                        fontSize: 32.0,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  );
+                }
             ),
-          ),
-        ),
+          )
+        ]
       ),
     );
   }
@@ -76,6 +95,7 @@ class _SpeakState extends State<Speak> {
         _speech.listen(
           onResult: (val) => setState(() {
             _text = val.recognizedWords;
+            
             
           }),
         );
