@@ -8,6 +8,16 @@ class Speak extends StatefulWidget {
 }
 
 class _SpeakState extends State<Speak> {
+  final Map<String, HighlightedWord> _highlights = {
+    'resonator': HighlightedWord(
+      onTap: () => print('resonator'),
+      textStyle: const TextStyle(
+        color: Colors.blue,
+        fontWeight: FontWeight.bold,
+      ),
+    ), 
+  };
+
   stt.SpeechToText _speech;
   bool _isListening = false;
   String _text = 'Coba Ngomong';
@@ -41,10 +51,13 @@ class _SpeakState extends State<Speak> {
         reverse: true,
         child: Container(
           padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
-          child: RichText(
-            text: TextSpan(
-              text: _text,
-              style: DefaultTextStyle.of(context).style,
+          child: TextHighlight(
+            text: _text,
+            words: _highlights,
+            textStyle: const TextStyle(
+              fontSize: 32.0,
+              color: Colors.black,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),
