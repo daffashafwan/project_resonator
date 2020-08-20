@@ -7,6 +7,8 @@ class Speak extends StatefulWidget {
   _SpeakState createState() => _SpeakState();
 }
 
+
+
 class _SpeakState extends State<Speak> {
   final Map<String, HighlightedWord> _highlights = {
     'resonator': HighlightedWord(
@@ -18,6 +20,7 @@ class _SpeakState extends State<Speak> {
     ), 
   };
 
+  List<String> litems = [];
   stt.SpeechToText _speech;
   bool _isListening = false;
   String _text = 'Coba Ngomong';
@@ -28,11 +31,12 @@ class _SpeakState extends State<Speak> {
     _speech = stt.SpeechToText();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ini maunya dibuat yang kebalik'),
+        title: Text("Ayo rek Kudu isok Hwa"),
         ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
@@ -47,20 +51,20 @@ class _SpeakState extends State<Speak> {
           child: Icon(_isListening ? Icons.mic : Icons.mic_none),
         ),
       ),
-      body: SingleChildScrollView(
-        reverse: true,
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
-          child: TextHighlight(
-            text: _text,
-            words: _highlights,
-            textStyle: const TextStyle(
-              fontSize: 32.0,
-              color: Colors.black,
-              fontWeight: FontWeight.w400,
+
+      body: ListView.builder(
+        itemCount: litems.length,
+        itemBuilder: (BuildContext context, int index){
+          return new Container(
+          padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
+          child: RichText(
+            text: TextSpan(
+              text: litems[index],
+              style: DefaultTextStyle.of(context).style,
             ),
           ),
-        ),
+        );
+       }
       ),
     );
   }
@@ -77,10 +81,13 @@ class _SpeakState extends State<Speak> {
           onResult: (val) => setState(() {
             _text = val.recognizedWords;
             
+            
           }),
         );
+        litems.add(_text);
       }
     } else {
+
       setState(() => _isListening = false);
       _speech.stop();
     }
