@@ -56,7 +56,7 @@ class _SpeakState extends State<Speak> {
         itemCount: litems.length,
         itemBuilder: (BuildContext context, int index){
           return new Container(
-          padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
+          padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
           child: RichText(
             text: TextSpan(
               text: litems[index],
@@ -80,12 +80,14 @@ class _SpeakState extends State<Speak> {
         _speech.listen(
           onResult: (val) => setState(() {
             _text = val.recognizedWords;
-            litems.add(_text);
+            
             
           }),
         );
+        litems.add(_text);
       }
     } else {
+
       setState(() => _isListening = false);
       _speech.stop();
     }
