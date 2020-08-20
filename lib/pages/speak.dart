@@ -1,6 +1,8 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:highlight_text/highlight_text.dart';
+import 'package:split_view/split_view.dart';
+import 'dart:math' as math;
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class Speak extends StatefulWidget {
@@ -35,9 +37,6 @@ class _SpeakState extends State<Speak> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Ayo rek Kudu isok Hwa"),
-        ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
         animate: _isListening,
@@ -52,7 +51,19 @@ class _SpeakState extends State<Speak> {
         ),
       ),
 
-      body: ListView.builder(
+      body: SplitView(
+        viewMode: SplitViewMode.Vertical,
+        initialWeight: 0.7,
+        view1: Container(
+          child: RotatedBox(
+            quarterTurns: 2,
+            child: Container(
+              child: Center(child: Text("Ini mau dibuat Chat")),
+              color: Colors.blue,
+            ),
+          ),
+        ),
+        view2: ListView.builder(
         itemCount: litems.length,
         itemBuilder: (BuildContext context, int index){
           return new Container(
@@ -66,30 +77,41 @@ class _SpeakState extends State<Speak> {
         );
        }
       ),
+      ),      
+
     );
   }
 
   void _listen() async {
+    
     if (!_isListening) {
+      litems.add(_text);
       bool available = await _speech.initialize(
         onStatus: (val) => print('onStatus: $val'),
         onError: (val) => print('onError: $val'),
       );
+
       if (available) {
+
         setState(() => _isListening = true);
         _speech.listen(
           onResult: (val) => setState(() {
             _text = val.recognizedWords;
-            
+            print('list : $litems');
             
           }),
         );
-        litems.add(_text);
+
+      }else{
+        print('status : $available');
       }
     } else {
 
       setState(() => _isListening = false);
       _speech.stop();
+      _text="Please Input Your Voice";
+
     }
+
   }
 }
