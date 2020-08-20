@@ -70,12 +70,16 @@ class _SpeakState extends State<Speak> {
   }
 
   void _listen() async {
+    
     if (!_isListening) {
+      litems.add(_text);
       bool available = await _speech.initialize(
         onStatus: (val) => print('onStatus: $val'),
         onError: (val) => print('onError: $val'),
       );
+
       if (available) {
+
         setState(() => _isListening = true);
         _speech.listen(
           onResult: (val) => setState(() {
@@ -84,12 +88,14 @@ class _SpeakState extends State<Speak> {
             
           }),
         );
-        litems.add(_text);
+
       }
     } else {
 
       setState(() => _isListening = false);
       _speech.stop();
+
     }
+    
   }
 }
