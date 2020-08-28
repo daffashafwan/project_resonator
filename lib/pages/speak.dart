@@ -21,21 +21,27 @@ class _SpeakState extends State<Speak> {
       ),
     ), 
   };
-
+  bool _turn = true;   
   List<String> litems = [];
   stt.SpeechToText _speech;
   bool _isListening = false;
   String _text = 'Coba Ngomong';
   double _confidence = 1.0;
+ 
 
   void initState(){
     super.initState();
     _speech = stt.SpeechToText();
+    
   }
+
+  
+
 
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
@@ -46,8 +52,14 @@ class _SpeakState extends State<Speak> {
         repeatPauseDuration: const Duration(milliseconds: 100),
         repeat: true,
         child: FloatingActionButton(
-          onPressed: _listen,
+          onPressed: () {
+            setState(() {
+              _turn = !_turn;
+            });
+          },
+
           child: Icon(_isListening ? Icons.mic : Icons.mic_none),
+          
         ),
       ),
 
@@ -56,27 +68,36 @@ class _SpeakState extends State<Speak> {
         initialWeight: 0.7,
         view1: Container(
           child: RotatedBox(
-            quarterTurns: 2,
+            quarterTurns: (_turn ? 2 : 4),
             child: Container(
-              child: Center(child: Text("Ini mau dibuat Chat")),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Input Textnya' 
+                ),
+              ),
               color: Colors.blue,
-            ),
+        ),
+
           ),
         ),
-        view2: ListView.builder(
-        itemCount: litems.length,
-        itemBuilder: (BuildContext context, int index){
-          return new Container(
-          padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
-          child: RichText(
-            text: TextSpan(
-              text: litems[index],
-              style: DefaultTextStyle.of(context).style,
+
+
+        
+      view2: ListView.builder(
+              itemCount: litems.length,
+              itemBuilder: (BuildContext context, int index){
+                return new Container(
+                padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
+                child: RichText(
+                  text: TextSpan(
+                    text: litems[index],
+                    style: DefaultTextStyle.of(context).style,
+                  ),
+                ),
+              );
+             }
             ),
-          ),
-        );
-       }
-      ),
       ),      
 
     );
