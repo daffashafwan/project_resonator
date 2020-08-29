@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Learn extends StatefulWidget {
   _LearnState createState() => _LearnState();
+  Learn({Key key}) : super(key: key);
 }
 
 class _LearnState extends State<Learn> {

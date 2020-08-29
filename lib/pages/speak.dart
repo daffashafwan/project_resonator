@@ -8,12 +8,19 @@ import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:flutter_tts/flutter_tts.dart';
 
 class Speak extends StatefulWidget {
+  List<String> litems = [];
+  List<String> litems2 = [];
+  Speak({Key key, this.litems, this.litems2}) : super(key: key);
+
+  @override
   _SpeakState createState() => _SpeakState();
+
 }
 
 enum TtsState { playing, stopped }
 
 class _SpeakState extends State<Speak> {
+
   FlutterTts flutterTts;
   String _newVoiceText;
   TtsState ttsState = TtsState.stopped;
