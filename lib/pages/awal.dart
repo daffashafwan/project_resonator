@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Awal extends StatefulWidget {
@@ -8,8 +9,13 @@ class Awal extends StatefulWidget {
 class _AwalState extends State<Awal> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-       child: Text('Awal'),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Home'),
+      ),
+      body: Center(
+      	child: Text('ini home'),
+      	),
     );
   }
 }

@@ -58,7 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
       body: IndexedStack(
             children: <Widget>[
               Awal(),
+              Penyimpanan(),
               Speak(),
+              History(),
               Learn(),
             ],
             index: currentTab,
@@ -78,8 +80,18 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: Colors.yellow
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.bookmark),
+            title: Text('Saved'),
+            backgroundColor: Colors.yellow
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.mic),
             title: Text('Speak'),
+            backgroundColor: Colors.yellow
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            title: Text('History'),
             backgroundColor: Colors.yellow
           ),
           BottomNavigationBarItem(

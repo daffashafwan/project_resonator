@@ -1,6 +1,7 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:highlight_text/highlight_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:split_view/split_view.dart';
 import 'dart:math' as math;
 import 'dart:async';
@@ -10,6 +11,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 class Speak extends StatefulWidget {
   List<String> litems = [];
   List<String> litems2 = [];
+  List<String> litems3 = [];
   Speak({Key key, this.litems, this.litems2}) : super(key: key);
 
   @override
@@ -39,6 +41,7 @@ class _SpeakState extends State<Speak> {
   bool _turn = false;   
   List<String> litems = [];
   List<String> litems2 = [];
+  List<String> litems3 = [];
   final TextEditingController eCtrl = new TextEditingController();
   stt.SpeechToText _speech;
   bool _isListening = false;
@@ -95,7 +98,7 @@ class _SpeakState extends State<Speak> {
     });
   }
 
-  
+
 
 
 
@@ -184,6 +187,7 @@ class _SpeakState extends State<Speak> {
                               onSubmitted: (text) {
                                 litems2.add(text);
                                 eCtrl.clear();
+                                
                                 setState(() {});
                               },
                             ),
@@ -235,6 +239,7 @@ class _SpeakState extends State<Speak> {
     
     if (!_isListening) {
       litems.add(_text);
+      
       bool available = await _speech.initialize(
         onStatus: (val) => print('onStatus: $val'),
         onError: (val) => print('onError: $val'),
