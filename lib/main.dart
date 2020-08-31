@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:project_resonator/pages/learn.dart';
-import 'package:project_resonator/pages/speak.dart';
-import 'package:project_resonator/pages/awal.dart';
+import 'package:project_resonator/pages/Learn.dart';
+import 'package:project_resonator/pages/Speak.dart';
+import 'package:project_resonator/pages/Awal.dart';
 
 void main() {
   runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
