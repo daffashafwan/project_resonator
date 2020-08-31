@@ -45,20 +45,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-	int _selectedIndex = 0;
-	final _layoutPage = [
-	  	Awal(),
-	  	Speak(),
-	  	Learn(),
-	];
-
-	void _onTabItem(int index) {
-	    setState(() {
-	      _selectedIndex = index; 
-	    });
-	}  
-
-
+  int currentTab = 0;
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -68,8 +55,22 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      body: _layoutPage.elementAt(_selectedIndex),
+      body: IndexedStack(
+            children: <Widget>[
+              Awal(),
+              Speak(),
+              Learn(),
+            ],
+            index: currentTab,
+          ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        currentIndex: currentTab,
+        onTap:(int index) {
+          setState(() {
+            currentTab = index;
+          });
+        },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -87,9 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: Colors.yellow
           ),
         ],
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex,
-        onTap:_onTabItem,
+        
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
