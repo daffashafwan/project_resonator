@@ -12,6 +12,7 @@ class History extends StatefulWidget {
 enum TtsState { playing, stopped }
 
 class _HistoryState extends State<History> {
+
   FlutterTts flutterTts;
   TtsState ttsState = TtsState.stopped;
 
@@ -42,10 +43,35 @@ class _HistoryState extends State<History> {
               });
               _speak();
               },
+            onLongPress: (){
+              _deleteDialog(item);
+            }  
           ),
         ),
       ),
       
+    );
+  }
+
+  void _deleteDialog(HistoryItem item){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Hapus Kalimat"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Tidak'),
+              onPressed: () => Navigator.of(context).pop()
+            ),
+            FlatButton(
+              child: Text('Iya'),
+              onPressed: () {_delete(item);Navigator.of(context).pop();} 
+            )           
+          ],
+          content: Text('Apakah anda ingin menghapus ?'),
+        );
+      }
     );
   }
 
@@ -94,6 +120,12 @@ class _HistoryState extends State<History> {
         if (result == 1) setState(() => ttsState = TtsState.playing);
       }
     }
+  }
+
+  void _delete(HistoryItem item) async {
+    
+    DB.delete(HistoryItem.table, item);
+    refresh();
   }
 
   void refresh() async {
