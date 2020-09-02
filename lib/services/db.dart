@@ -6,7 +6,7 @@ abstract class DB {
 
 	static Database _db;
 
-	static int get _version => 1;
+	static int get _version => 5;
 
 	static Future<void> init() async {
 
@@ -21,8 +21,11 @@ abstract class DB {
 		}
 	}
 
-	static void onCreate(Database db, int version) async =>
+	static void onCreate(Database db, int version) async {
 		await db.execute('CREATE TABLE saved_items (id INTEGER PRIMARY KEY NOT NULL, kalimat STRING)');
+		await db.execute('CREATE TABLE history_items (id INTEGER PRIMARY KEY NOT NULL, kalimat STRING, timestamp STRING)');
+
+	}
 
 	static Future<List<Map<String, dynamic>>> query(String table) async => _db.query(table);
 
