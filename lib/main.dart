@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:project_resonator/pages/Learn.dart';
-import 'package:project_resonator/pages/Speak.dart';
-import 'package:project_resonator/pages/Awal.dart';
+import 'package:project_resonator/pages/learn.dart';
+import 'package:project_resonator/pages/speak.dart';
+import 'package:project_resonator/pages/awal.dart';
+import 'package:project_resonator/pages/penyimpanan.dart';
+import 'package:project_resonator/pages/history.dart';
+import 'package:bmnav/bmnav.dart' as bmnav;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:project_resonator/services/db.dart';
 
-void main() {
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await DB.init();
   runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -49,6 +58,10 @@ class _MyHomePageState extends State<MyHomePage> {
   int currentTab = 0;
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -59,50 +72,31 @@ class _MyHomePageState extends State<MyHomePage> {
       body: IndexedStack(
             children: <Widget>[
               Awal(),
-              Penyimpanan(),
+              Learn(),
               Speak(),
               History(),
-              Learn(),
+              Penyimpanan(),
             ],
             index: currentTab,
           ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        currentIndex: currentTab,
-        onTap:(int index) {
+      bottomNavigationBar: bmnav.BottomNav(
+        index: currentTab,
+        onTap:(int i) {
           setState(() {
-            currentTab = index;
+            currentTab = i;
           });
         },
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Home'),
-            backgroundColor: Colors.yellow
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bookmark),
-            title: Text('Saved'),
-            backgroundColor: Colors.yellow
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.mic),
-            title: Text('Speak'),
-            backgroundColor: Colors.yellow
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            title: Text('History'),
-            backgroundColor: Colors.yellow
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book),
-            title: Text('Learn'),
-            backgroundColor: Colors.yellow
-          ),
+        labelStyle: bmnav.LabelStyle(visible: false),
+        iconStyle: bmnav.IconStyle(onSelectSize: 32.0),
+        items: [
+          bmnav.BottomNavItem(Icons.home, label: 'Home'),
+          bmnav.BottomNavItem(Icons.book, label: 'Learn'),
+          bmnav.BottomNavItem(Icons.mic, label: 'Speak'),
+          bmnav.BottomNavItem(Icons.history, label: 'History'),
+          bmnav.BottomNavItem(Icons.bookmark, label: 'Saved')
         ],
-        
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
