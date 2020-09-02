@@ -23,15 +23,12 @@ class _PenyimpananState extends State<Penyimpanan> {
       key: Key(item.id.toString()),
       child: Padding(
         padding: EdgeInsets.fromLTRB(12, 6, 12, 4),
-        child: FlatButton(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(item.kalimat, style: _style),
-            ]
+        child: Card(
+          child: ListTile(
+            title: Text(item.kalimat, style: _style),
+            
           ),
-          
-        )
+        ),
       ),
       onDismissed: (DismissDirection direction) => _delete(item),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:project_resonator/models/history-item.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:project_resonator/services/db.dart';
 
 class History extends StatefulWidget {
@@ -8,8 +9,16 @@ class History extends StatefulWidget {
   History({Key key}) : super(key: key);
 }
 
-class _HistoryState extends State<History> {
+enum TtsState { playing, stopped }
 
+class _HistoryState extends State<History> {
+  FlutterTts flutterTts;
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+
+  get isStopped => ttsState == TtsState.stopped;
+  String voice;
   List<HistoryItem> _kalimat = [];
   List<Widget> get _items => _kalimat.map((item) => format(item)).toList();
 
@@ -22,19 +31,69 @@ class _HistoryState extends State<History> {
       key: Key(item.id.toString()),
       child: Padding(
         padding: EdgeInsets.fromLTRB(12, 6, 12, 4),
-        child: FlatButton(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(item.kalimat, style: _style),
-              Text(item.timestamp, style: _style_2),
-            ]
+        child: Card(
+          child: ListTile(
+            title: Text(item.kalimat, style: _style),
+            subtitle: Text(item.timestamp, style: _style_2),
+            isThreeLine: true,
+            onTap: (){
+              setState(() {
+                voice = item.kalimat;
+              });
+              _speak();
+              },
           ),
-          
-        )
+        ),
       ),
       
     );
+  }
+
+
+  void initState(){
+    //start();
+    
+    super.initState();
+    initTts();
+    refresh();
+    
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future _speak() async {
+    await flutterTts.setLanguage("id-ID");
+
+    if (voice != null) {
+      if (voice.isNotEmpty) {
+        var result = await flutterTts.speak(voice);
+        if (result == 1) setState(() => ttsState = TtsState.playing);
+      }
+    }
   }
 
   void refresh() async {
@@ -44,22 +103,17 @@ class _HistoryState extends State<History> {
     setState(() { });
   }
 
-  void initState(){
-    //start();
-    refresh();
-    super.initState();
-    
-  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('History'),
+        title: Text('Riwayat'),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () { refresh(); },
-        tooltip: 'New TODO',
-        child: Icon(Icons.library_add),
+        onPressed: () { refresh();},
+        tooltip: 'Refresh',
+        child: Icon(Icons.refresh),
       ),
       body: Center(
         child: ListView( children: _items )

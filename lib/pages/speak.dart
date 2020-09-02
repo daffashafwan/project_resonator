@@ -133,7 +133,9 @@ class _SpeakState extends State<Speak> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('Percakapan'),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
         animate: _isListening,
