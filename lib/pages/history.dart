@@ -13,8 +13,8 @@ class _HistoryState extends State<History> {
   List<HistoryItem> _kalimat = [];
   List<Widget> get _items => _kalimat.map((item) => format(item)).toList();
 
-  TextStyle _style = TextStyle(color: Colors.black, fontSize: 24);
-  TextStyle _style_2 = TextStyle(color: Colors.black, fontSize: 16);
+  TextStyle _style = TextStyle(color: Colors.black, fontSize: 15);
+  TextStyle _style_2 = TextStyle(color: Colors.black, fontSize: 10);
 
   Widget format(HistoryItem item) {
 

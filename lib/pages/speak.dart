@@ -6,10 +6,13 @@ import 'package:split_view/split_view.dart';
 import 'dart:math' as math;
 import 'package:project_resonator/services/db.dart';
 import 'dart:async';
+import 'dart:core';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:project_resonator/models/history-item.dart';
 import 'package:project_resonator/services/db.dart';
+import 'package:intl/intl.dart';
+
 class Speak extends StatefulWidget {
   List<String> litems = [];
   List<String> litems2 = [];
@@ -28,6 +31,8 @@ class _SpeakState extends State<Speak> {
 
   FlutterTts flutterTts;
   String _newVoiceText;
+  String _newDateText;
+
   TtsState ttsState = TtsState.stopped;
   get isPlaying => ttsState == TtsState.playing;
 
@@ -50,13 +55,13 @@ class _SpeakState extends State<Speak> {
   bool _isListening = false;
   String _text = 'Coba Ngomong';
   double _confidence = 1.0;
- 
+  
   void _save() async {
 
     //Navigator.of(context).pop();
     HistoryItem item = HistoryItem(
       kalimat: _newVoiceText,
-      timestamp: 'oi',
+      timestamp: _newDateText,
     );
 
     await DB.insert(HistoryItem.table, item);
@@ -107,6 +112,13 @@ class _SpeakState extends State<Speak> {
     }
   }
 
+  void _getDate(){
+    DateTime now = DateTime.now();
+    String formattedDate = DateFormat('yyyy-MM-dd - kk:mm').format(now);
+    setState(() {
+      _newDateText = formattedDate;
+    });
+  }
   void _onChange(String text) {
     setState(() {
       _newVoiceText = text;
@@ -202,6 +214,7 @@ class _SpeakState extends State<Speak> {
                               onSubmitted: (text) {
                                 litems2.add(text);
                                 eCtrl.clear();
+                                _getDate();
                                 _save();
                                 setState(() {});
                               },
