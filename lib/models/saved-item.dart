@@ -7,7 +7,7 @@ class SavedItem extends Model {
 	int id;
 	String kalimat;
 
-	TodoItem({ this.id, this.kalimat});
+	SavedItem({ this.id, this.kalimat});
 
 	Map<String, dynamic> toMap() {
 
@@ -19,9 +19,9 @@ class SavedItem extends Model {
 		return map;
 	}
 
-	static TodoItem fromMap(Map<String, dynamic> map) {
+	static SavedItem fromMap(Map<String, dynamic> map) {
 		
-		return TodoItem(
+		return SavedItem(
 			id: map['id'],
 			kalimat: map['kalimat'],
 		);

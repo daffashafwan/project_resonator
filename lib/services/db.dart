@@ -22,7 +22,7 @@ abstract class DB {
 	}
 
 	static void onCreate(Database db, int version) async =>
-		await db.execute('CREATE TABLE saved_items (id INTEGER PRIMARY KEY NOT NULL, task STRING)');
+		await db.execute('CREATE TABLE saved_items (id INTEGER PRIMARY KEY NOT NULL, kalimat STRING)');
 
 	static Future<List<Map<String, dynamic>>> query(String table) async => _db.query(table);
 

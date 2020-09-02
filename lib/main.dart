@@ -7,7 +7,6 @@ import 'package:project_resonator/pages/history.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:project_resonator/models/todo-item.dart';
 import 'package:project_resonator/services/db.dart';
 
 
