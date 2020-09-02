@@ -4,10 +4,12 @@ import 'package:highlight_text/highlight_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:split_view/split_view.dart';
 import 'dart:math' as math;
+import 'package:project_resonator/services/db.dart';
 import 'dart:async';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:flutter_tts/flutter_tts.dart';
-
+import 'package:project_resonator/models/history-item.dart';
+import 'package:project_resonator/services/db.dart';
 class Speak extends StatefulWidget {
   List<String> litems = [];
   List<String> litems2 = [];
@@ -22,6 +24,7 @@ class Speak extends StatefulWidget {
 enum TtsState { playing, stopped }
 
 class _SpeakState extends State<Speak> {
+
 
   FlutterTts flutterTts;
   String _newVoiceText;
@@ -48,6 +51,18 @@ class _SpeakState extends State<Speak> {
   String _text = 'Coba Ngomong';
   double _confidence = 1.0;
  
+  void _save() async {
+
+    //Navigator.of(context).pop();
+    HistoryItem item = HistoryItem(
+      kalimat: _newVoiceText,
+      timestamp: 'oi',
+    );
+
+    await DB.insert(HistoryItem.table, item);
+    //setState(() => kalimat = '' );
+    //refresh();
+  }
 
   void initState(){
     super.initState();
@@ -187,7 +202,7 @@ class _SpeakState extends State<Speak> {
                               onSubmitted: (text) {
                                 litems2.add(text);
                                 eCtrl.clear();
-                                
+                                _save();
                                 setState(() {});
                               },
                             ),
