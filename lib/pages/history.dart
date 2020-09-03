@@ -128,7 +128,7 @@ class _HistoryState extends State<History> {
     refresh();
   }
 
-  void refresh() async {
+  Future refresh() async {
 
     List<Map<String, dynamic>> _results = await DB.query(HistoryItem.table);
     _kalimat = _results.map((item) => HistoryItem.fromMap(item)).toList();
@@ -142,13 +142,17 @@ class _HistoryState extends State<History> {
       appBar: AppBar(
         title: Text('Riwayat'),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () { refresh();},
-        tooltip: 'Refresh',
-        child: Icon(Icons.refresh),
-      ),
+      //floatingActionButton: FloatingActionButton(
+      //  onPressed: () { refresh();},
+      //  tooltip: 'Refresh',
+      //  child: Icon(Icons.refresh),
+      //),
       body: Center(
-        child: ListView( children: _items )
+        child: RefreshIndicator(
+          child: ListView( children: _items ),
+          onRefresh: refresh,
+        ),
+
       ),
     );
   }

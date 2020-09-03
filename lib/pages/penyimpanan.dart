@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:project_resonator/models/saved-item.dart';
 import 'package:project_resonator/services/db.dart';
 
@@ -10,10 +11,21 @@ class Penyimpanan extends StatefulWidget {
   Penyimpanan({Key key}) : super(key: key);
 }
 
+enum TtsState { playing, stopped }
+
+
 class _PenyimpananState extends State<Penyimpanan> {
+
+  FlutterTts flutterTts;
+  TtsState ttsState = TtsState.stopped;
+
+  get isPlaying => ttsState == TtsState.playing;
+
+  get isStopped => ttsState == TtsState.stopped;
+  String voice;
   String kalimat;
   List<SavedItem> _kalimat = [];
-  TextStyle _style = TextStyle(color: Colors.black, fontSize: 24);
+  TextStyle _style = TextStyle(color: Colors.black, fontSize: 15);
 
   List<Widget> get _items => _kalimat.map((item) => format(item)).toList();
 
@@ -26,7 +38,12 @@ class _PenyimpananState extends State<Penyimpanan> {
         child: Card(
           child: ListTile(
             title: Text(item.kalimat, style: _style),
-            
+            onTap: (){
+              setState(() {
+                voice = item.kalimat;
+              });
+              _speak();
+              },
           ),
         ),
       ),
@@ -88,8 +105,46 @@ class _PenyimpananState extends State<Penyimpanan> {
   void initState(){
     //start();
     refresh();
+    initTts();
     super.initState();
     
+  }
+
+  initTts() {
+    flutterTts = FlutterTts();
+
+
+    flutterTts.setStartHandler(() {
+      setState(() {
+        print("playing");
+        ttsState = TtsState.playing;
+      });
+    });
+
+    flutterTts.setCompletionHandler(() {
+      setState(() {
+        print("Complete");
+        ttsState = TtsState.stopped;
+      });
+    });
+
+    flutterTts.setErrorHandler((msg) {
+      setState(() {
+        print("error: $msg");
+        ttsState = TtsState.stopped;
+      });
+    });
+  }
+
+  Future _speak() async {
+    await flutterTts.setLanguage("id-ID");
+
+    if (voice != null) {
+      if (voice.isNotEmpty) {
+        var result = await flutterTts.speak(voice);
+        if (result == 1) setState(() => ttsState = TtsState.playing);
+      }
+    }
   }
 
   void refresh() async {

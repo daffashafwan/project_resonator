@@ -266,9 +266,13 @@ class _SpeakState extends State<Speak> {
   }
 
   void _listen() async {
-    
+    if(_isListening == true){
+      print('textnya : $_text');
+      litems.add(_text);  
+    }
+    print('status : $_isListening');
     if (!_isListening) {
-      litems.add(_text);
+      
       
       bool available = await _speech.initialize(
         onStatus: (val) => print('onStatus: $val'),
@@ -281,7 +285,7 @@ class _SpeakState extends State<Speak> {
         _speech.listen(
           onResult: (val) => setState(() {
             _text = val.recognizedWords;
-            print('list : $litems');
+            //print('list : $litems');
             
           }),
         );
