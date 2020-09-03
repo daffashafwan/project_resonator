@@ -157,9 +157,7 @@ class _SpeakState extends State<Speak> {
         gripColor: Colors.blue,
         onWeightChanged: (w) => print("Vertical $w"),
         gripSize: 8.0,
-        view1: Container(
-          padding: const EdgeInsets.all(8.0),
-           child: Column(
+        view1: Column(
                 children: [
                   Flexible(
                     child: SizedBox(
@@ -190,10 +188,13 @@ class _SpeakState extends State<Speak> {
                       )
                     ),
                   ),
-                  Flexible(
-                    child: SizedBox(
-                      height: 500,
+                  
+                    Container(
+                      height: 200,
+                      //height: MediaQuery.of(context).size.height / 2,
+                      color: Colors.blue,
                       child: RotatedBox(
+                        //color: Colors.blue,
                         quarterTurns: (_turn ? 2 : 4),
                         child: Column(
                           children: <Widget>[
@@ -221,7 +222,7 @@ class _SpeakState extends State<Speak> {
                                 setState(() {});
                               },
                             ),
-                            new Expanded(
+                            new Flexible(
                               child: new ListView.builder
                                 (
                                   itemCount: litems2.length,
@@ -235,14 +236,16 @@ class _SpeakState extends State<Speak> {
                         ),
    
                         ),
-                    ),
+                    )
+                      
                     
-                  ),
+                    
+                  
                 ],
 
             ),
           
-        ),
+        
 
 
         
