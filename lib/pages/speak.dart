@@ -249,7 +249,25 @@ class _SpeakState extends State<Speak> {
 
 
         
-      view2: ListView.builder(
+      view2: 
+      SingleChildScrollView(
+        reverse: true,
+      child: Container(
+          padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
+          child: TextHighlight(
+            text: _text,
+            words: _highlights,
+            textStyle: const TextStyle(
+              fontSize: 32.0,
+              color: Colors.black,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
+        ),
+      ),
+
+
+      /*ListView.builder(
               itemCount: litems.length,
               itemBuilder: (BuildContext context, int index){
                 return new Container(
@@ -262,13 +280,37 @@ class _SpeakState extends State<Speak> {
                 ),
               );
              }
-            ),
+            ),*/
       ),      
 
     );
   }
 
   void _listen() async {
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (val) => print('onStatus: $val'),
+        onError: (val) => print('onError: $val'),
+      );
+      if (available) {
+        setState(() => _isListening = true);
+        _speech.listen(
+          onResult: (val) => setState(() {
+            _text = val.recognizedWords;
+            if (val.hasConfidenceRating && val.confidence > 0) {
+              _confidence = val.confidence;
+            }
+          }),
+        );
+      }
+    } else {
+      setState(() => _isListening = false);
+      _speech.stop();
+      print(_text);
+    }
+  }
+
+  /*void _listen() async {
     if(_isListening == true){
       print('textnya : $_text');
       litems.add(_text);  
@@ -304,5 +346,5 @@ class _SpeakState extends State<Speak> {
 
     }
 
-  }
+  }*/
 }
