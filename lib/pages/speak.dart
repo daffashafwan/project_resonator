@@ -125,6 +125,49 @@ class _SpeakState extends State<Speak> {
     });
   }
 
+ void _create(BuildContext context) {
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Riwayat Percakapan"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Close'),
+              onPressed: (){
+              Navigator.of(context).pop();
+              FocusScope.of(context).previousFocus();
+              },
+            ),           
+          ],
+          content: setupAlertDialoadContainer(),
+        );
+      }
+    );
+  }
+
+  Widget setupAlertDialoadContainer() {
+  return Container(
+    height: 300.0, // Change as per your requirement
+    width: 300.0, // Change as per your requirement
+    child: ListView.builder(
+              itemCount: litems.length,
+              itemBuilder: (BuildContext context, int index){
+                return new Container(
+                padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
+                child: RichText(
+                  text: TextSpan(
+                    text: litems[index],
+                    style: DefaultTextStyle.of(context).style,
+                  ),
+                ),
+              );
+             }
+            ),
+  );
+}
+
 
 
 
@@ -249,10 +292,30 @@ class _SpeakState extends State<Speak> {
 
 
         
-      view2: 
-      SingleChildScrollView(
+      view2: Column(
+        children: <Widget>[
+          Flexible(
+            child: SizedBox(
+              height: 50,
+              child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          IconButton(
+                              icon: Icon(Icons.history),
+                              tooltip: 'Listen Text',
+                              onPressed: () { _create(context); },
+                            ),
+                          
+                        ],
+                      )
+            ),
+          ),
+
+          Expanded(
+        
+        child: SingleChildScrollView(
         reverse: true,
-      child: Container(
+        child: Container(
           padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),
           child: TextHighlight(
             text: _text,
@@ -265,6 +328,17 @@ class _SpeakState extends State<Speak> {
           ),
         ),
       ),
+      ),
+
+
+        ],
+      ),
+
+      
+
+
+
+      
 
 
       /*ListView.builder(
@@ -282,7 +356,7 @@ class _SpeakState extends State<Speak> {
              }
             ),*/
       ),      
-
+  
     );
   }
 
@@ -307,6 +381,7 @@ class _SpeakState extends State<Speak> {
       setState(() => _isListening = false);
       _speech.stop();
       print(_text);
+      litems.add(_text);
     }
   }
 
