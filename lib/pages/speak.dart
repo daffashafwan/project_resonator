@@ -50,18 +50,19 @@ class _SpeakState extends State<Speak> {
   List<String> litems = [];
   List<String> litems2 = [];
   List<String> litems3 = [];
+  List<String> litems4 = [];
   final TextEditingController eCtrl = new TextEditingController();
   stt.SpeechToText _speech;
   bool _isListening = false;
   String _text = 'Coba Ngomong';
   double _confidence = 1.0;
   
-  void _save() async {
+  void _save(int index) async {
 
     //Navigator.of(context).pop();
     HistoryItem item = HistoryItem(
-      kalimat: _newVoiceText,
-      timestamp: _newDateText,
+      kalimat: litems2[index],
+      timestamp: litems4[index],
     );
 
     await DB.insert(HistoryItem.table, item);
@@ -117,6 +118,9 @@ class _SpeakState extends State<Speak> {
     String formattedDate = DateFormat('yyyy-MM-dd - kk:mm').format(now);
     setState(() {
       _newDateText = formattedDate;
+      litems4.add(_newDateText);
+      print(litems4);
+      print(litems2);
     });
   }
   void _onChange(String text) {
@@ -147,6 +151,37 @@ class _SpeakState extends State<Speak> {
     );
   }
 
+  void _saveDialog(BuildContext context, int index) {
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Simpan Riwayat ?"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Close'),
+              onPressed: (){
+              Navigator.of(context).pop();
+              FocusScope.of(context).previousFocus();
+              },
+            ),
+            FlatButton(
+              child: Text('Save'),
+              onPressed: (){
+              _save(index);
+              Navigator.of(context).pop();
+              },
+            ),           
+          ],
+          content: Text(litems2[index]),
+        );
+      }
+    );
+  }
+
+  TextStyle _style = TextStyle(color: Colors.black, fontSize: 15);
+
   Widget setupAlertDialoadContainer() {
   return Container(
     height: 300.0, // Change as per your requirement
@@ -176,9 +211,6 @@ class _SpeakState extends State<Speak> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Percakapan'),
-      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
         animate: _isListening,
@@ -235,13 +267,17 @@ class _SpeakState extends State<Speak> {
                     Container(
                       height: 200,
                       //height: MediaQuery.of(context).size.height / 2,
-                      color: Colors.blue,
+                      //color: Colors.white,
                       child: RotatedBox(
                         //color: Colors.blue,
                         quarterTurns: (_turn ? 2 : 4),
                         child: Column(
                           children: <Widget>[
-                            new TextField(
+                            new Padding(
+                              padding: EdgeInsets.fromLTRB(12, 4, 12, 4),
+                              child: TextField(
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
                               decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintText: 'Input Textnya' 
@@ -261,16 +297,40 @@ class _SpeakState extends State<Speak> {
                                 litems2.add(text);
                                 eCtrl.clear();
                                 _getDate();
-                                _save();
+                                
                                 setState(() {});
                               },
                             ),
+                              ),
                             new Flexible(
                               child: new ListView.builder
                                 (
                                   itemCount: litems2.length,
                                   itemBuilder: (BuildContext ctxt, int Index) {
-                                    return new Text(litems2[Index]);
+                                    return new Padding(
+                                      padding: EdgeInsets.fromLTRB(12, 6, 12, 4),
+                                      child: Card(
+                                        child: ListTile(
+                                          title: Text(litems2[Index], style: _style),
+                                          //subtitle: Text(item.timestamp, style: _style_2),
+                                          //isThreeLine: true,
+                                          // onTap: (){
+                                          //   setState(() {
+                                          //     voice = item.kalimat;
+                                          //   });
+                                          //   _speak();
+                                          //   },
+                                           onLongPress: (){
+                                            print(Index);
+                                             _saveDialog(context, Index);
+                                           }  
+                                        ),
+                                      ),
+                                    );
+
+
+
+                                    //Text(litems2[Index]);
                                   }
                               )
                             )

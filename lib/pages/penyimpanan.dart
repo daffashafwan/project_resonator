@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:project_resonator/models/saved-item.dart';
 import 'package:project_resonator/services/db.dart';
+import 'package:project_resonator/pages/history.dart';
 
 class Penyimpanan extends StatefulWidget {
   _PenyimpananState createState() => _PenyimpananState();
@@ -157,11 +158,21 @@ class _PenyimpananState extends State<Penyimpanan> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Penyimpanan'),
-      ),
       body: Center(
-        child: ListView( children: _items )
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Padding(
+              padding: EdgeInsets.fromLTRB(12, 6, 12, 4),
+              child: Card(
+                child: ListView( children: _items ),
+              ),
+            ),
+            ),
+            
+
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () { _create(context); },
