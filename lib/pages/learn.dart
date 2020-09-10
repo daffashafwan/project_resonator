@@ -7,13 +7,8 @@ class Learn extends StatefulWidget {
 class _LearnState extends State<Learn> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Belajar'),
-      ),
-      body: Center(
-      	child: Text('ini belajar'),
-      	),
+    return Center(
+       child: Text('Learn'),
     );
   }
 }
