@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project_resonator/models/history-item.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:project_resonator/services/db.dart';
+import 'package:project_resonator/pages/penyimpanan.dart';
 
 class History extends StatefulWidget {
   _HistoryState createState() => _HistoryState();
@@ -128,27 +129,45 @@ class _HistoryState extends State<History> {
     refresh();
   }
 
-  void refresh() async {
+  Future refresh() async {
 
     List<Map<String, dynamic>> _results = await DB.query(HistoryItem.table);
     _kalimat = _results.map((item) => HistoryItem.fromMap(item)).toList();
     setState(() { });
   }
 
+  String dropdownValue = 'One';
+
+  
+
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Riwayat'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () { refresh();},
-        tooltip: 'Refresh',
-        child: Icon(Icons.refresh),
-      ),
+      //floatingActionButton: FloatingActionButton(
+      //  onPressed: () { refresh();},
+      //  tooltip: 'Refresh',
+      //  child: Icon(Icons.refresh),
+      //),
       body: Center(
-        child: ListView( children: _items )
+        child: RefreshIndicator(
+          child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Padding(
+              padding: EdgeInsets.fromLTRB(12, 6, 12, 4),
+              child: Card(
+                child: ListView( children: _items ),
+              ),
+            ),
+            ),
+            
+
+          ],
+        ),
+          onRefresh: refresh,
+        ),
+
       ),
     );
   }

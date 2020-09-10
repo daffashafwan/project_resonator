@@ -3,6 +3,7 @@ import 'package:project_resonator/pages/learn.dart';
 import 'package:project_resonator/pages/speak.dart';
 import 'package:project_resonator/pages/awal.dart';
 import 'package:project_resonator/pages/penyimpanan.dart';
+import 'package:project_resonator/pages/penyimpananStack.dart';
 import 'package:project_resonator/pages/history.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
 import 'package:flutter/cupertino.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Resonator App',
       theme: ThemeData(
         // This is the theme of your application.
@@ -55,7 +57,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int currentTab = 0;
+  int currentTab = 1;
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -69,16 +71,19 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      body: IndexedStack(
+      body: SafeArea(
+        top: true,
+        child: IndexedStack(
             children: <Widget>[
-              Awal(),
               Learn(),
               Speak(),
-              History(),
-              Penyimpanan(),
+              PenyimpananStack(),
             ],
             index: currentTab,
           ),
+      ),
+
+      
       bottomNavigationBar: bmnav.BottomNav(
         index: currentTab,
         onTap:(int i) {
@@ -89,10 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
         labelStyle: bmnav.LabelStyle(visible: false),
         iconStyle: bmnav.IconStyle(onSelectSize: 32.0),
         items: [
-          bmnav.BottomNavItem(Icons.home, label: 'Home'),
           bmnav.BottomNavItem(Icons.book, label: 'Learn'),
           bmnav.BottomNavItem(Icons.mic, label: 'Speak'),
-          bmnav.BottomNavItem(Icons.history, label: 'History'),
           bmnav.BottomNavItem(Icons.bookmark, label: 'Saved')
         ],
       ),
