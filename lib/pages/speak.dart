@@ -46,7 +46,8 @@ class _SpeakState extends State<Speak> {
       ),
     ), 
   };
-  bool _turn = false;   
+  bool _turn = false;
+  bool _isType = false;   
   List<String> litems = [];
   List<String> litems2 = [];
   List<String> litems3 = [];
@@ -206,11 +207,11 @@ class _SpeakState extends State<Speak> {
 
 
 
-
   @override
   Widget build(BuildContext context) {
     
     return Scaffold(
+      resizeToAvoidBottomPadding: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
         animate: _isListening,
@@ -234,8 +235,7 @@ class _SpeakState extends State<Speak> {
         gripSize: 8.0,
         view1: Column(
                 children: [
-                  Flexible(
-                    child: SizedBox(
+                    SizedBox(
                       height: 50.0,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -262,11 +262,11 @@ class _SpeakState extends State<Speak> {
                         ],
                       )
                     ),
-                  ),
                   
-                    Container(
-                      height: 200,
-                      //height: MediaQuery.of(context).size.height / 2,
+                  
+                    Expanded(
+                      
+                      //height: MediaQuery.of(context).size.height / 2.7,
                       //color: Colors.white,
                       child: RotatedBox(
                         //color: Colors.blue,
@@ -276,6 +276,7 @@ class _SpeakState extends State<Speak> {
                             new Padding(
                               padding: EdgeInsets.fromLTRB(12, 4, 12, 4),
                               child: TextField(
+                               textInputAction: TextInputAction.go,
                               keyboardType: TextInputType.multiline,
                               maxLines: null,
                               decoration: InputDecoration(
@@ -286,6 +287,8 @@ class _SpeakState extends State<Speak> {
                               onTap: (){
                                 if(_turn=true){
                                   setState(() {
+                                  
+                                  
                                   _turn = !_turn;
                                 });
                                 }
@@ -302,7 +305,7 @@ class _SpeakState extends State<Speak> {
                               },
                             ),
                               ),
-                            new Flexible(
+                            new Expanded(
                               child: new ListView.builder
                                 (
                                   itemCount: litems2.length,
@@ -374,6 +377,7 @@ class _SpeakState extends State<Speak> {
           Expanded(
         
         child: SingleChildScrollView(
+          
         reverse: true,
         child: Container(
           padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 150.0),

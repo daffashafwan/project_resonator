@@ -1,0 +1,249 @@
+@startuml
+set namespaceSeparator ::
+
+class "project_resonator::main.dart::MyApp" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "project_resonator::main.dart::MyApp"
+
+class "project_resonator::main.dart::MyHomePage" {
+  +dynamic title
+  +_MyHomePageState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "project_resonator::main.dart::MyHomePage"
+
+class "project_resonator::main.dart::_MyHomePageState" {
+  +int currentTab
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State<T>" <|-- "project_resonator::main.dart::_MyHomePageState"
+
+class "project_resonator::models::saved-item.dart::SavedItem" {
+  {static} +String table
+  +int id
+  +String kalimat
+  +Map toMap()
+  {static} +SavedItem fromMap()
+}
+
+"project_resonator::models::model.dart::Model" <|-- "project_resonator::models::saved-item.dart::SavedItem"
+
+abstract class "project_resonator::models::model.dart::Model" {
+  +int id
+  {static} +dynamic fromMap()
+  +dynamic toMap()
+}
+
+class "project_resonator::models::history-item.dart::HistoryItem" {
+  {static} +String table
+  +int id
+  +String kalimat
+  +String timestamp
+  +Map toMap()
+  {static} +HistoryItem fromMap()
+}
+
+"project_resonator::models::model.dart::Model" <|-- "project_resonator::models::history-item.dart::HistoryItem"
+
+class "project_resonator::pages::history.dart::TtsState" {
+  +int index
+  {static} +List<TtsState> values
+  {static} +TtsState playing
+  {static} +TtsState stopped
+}
+
+"project_resonator::pages::history.dart::TtsState" o-- "project_resonator::pages::history.dart::TtsState"
+
+class "project_resonator::pages::history.dart::History" {
+  +_HistoryState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "project_resonator::pages::history.dart::History"
+
+class "project_resonator::pages::history.dart::_HistoryState" {
+  +FlutterTts flutterTts
+  +TtsState ttsState
+  +dynamic voice
+  -List<HistoryItem> _kalimat
+  -TextStyle _style
+  -TextStyle _style_2
+  +dynamic dropdownValue
+  +dynamic isPlaying
+  +dynamic isStopped
+  -List<Widget> _items
+  +Widget format()
+  -void _deleteDialog()
+  +void initState()
+  +dynamic initTts()
+  -Future _speak()
+  -void _delete()
+  +Future refresh()
+  +Widget build()
+}
+
+"project_resonator::pages::history.dart::_HistoryState" o-- "flutter_tts::flutter_tts.dart::FlutterTts"
+"project_resonator::pages::history.dart::_HistoryState" o-- "project_resonator::pages::history.dart::TtsState"
+"project_resonator::pages::history.dart::_HistoryState" o-- "flutter::src::painting::text_style.dart::TextStyle"
+"flutter::src::widgets::framework.dart::State<T>" <|-- "project_resonator::pages::history.dart::_HistoryState"
+
+class "project_resonator::pages::penyimpanan.dart::TtsState" {
+  +int index
+  {static} +List<TtsState> values
+  {static} +TtsState playing
+  {static} +TtsState stopped
+}
+
+"project_resonator::pages::penyimpanan.dart::TtsState" o-- "project_resonator::pages::penyimpanan.dart::TtsState"
+
+class "project_resonator::pages::penyimpanan.dart::Penyimpanan" {
+  +_PenyimpananState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "project_resonator::pages::penyimpanan.dart::Penyimpanan"
+
+class "project_resonator::pages::penyimpanan.dart::_PenyimpananState" {
+  +FlutterTts flutterTts
+  +TtsState ttsState
+  +dynamic voice
+  +dynamic kalimat
+  -List<SavedItem> _kalimat
+  -TextStyle _style
+  +dynamic isPlaying
+  +dynamic isStopped
+  -List<Widget> _items
+  +Widget format()
+  +void start()
+  -void _delete()
+  -void _save()
+  -void _create()
+  +void initState()
+  +dynamic initTts()
+  -Future _speak()
+  +void refresh()
+  +Widget build()
+}
+
+"project_resonator::pages::penyimpanan.dart::_PenyimpananState" o-- "flutter_tts::flutter_tts.dart::FlutterTts"
+"project_resonator::pages::penyimpanan.dart::_PenyimpananState" o-- "project_resonator::pages::penyimpanan.dart::TtsState"
+"project_resonator::pages::penyimpanan.dart::_PenyimpananState" o-- "flutter::src::painting::text_style.dart::TextStyle"
+"flutter::src::widgets::framework.dart::State<T>" <|-- "project_resonator::pages::penyimpanan.dart::_PenyimpananState"
+
+class "project_resonator::pages::penyimpananStack.dart::PenyimpananStack" {
+  +dynamic title
+  +_PenyimpananStackState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "project_resonator::pages::penyimpananStack.dart::PenyimpananStack"
+
+class "project_resonator::pages::penyimpananStack.dart::_PenyimpananStackState" {
+  +int currentTab
+  +dynamic dropdownValue
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State<T>" <|-- "project_resonator::pages::penyimpananStack.dart::_PenyimpananStackState"
+
+class "project_resonator::pages::speak.dart::TtsState" {
+  +int index
+  {static} +List<TtsState> values
+  {static} +TtsState playing
+  {static} +TtsState stopped
+}
+
+"project_resonator::pages::speak.dart::TtsState" o-- "project_resonator::pages::speak.dart::TtsState"
+
+class "project_resonator::pages::speak.dart::Speak" {
+  +List litems
+  +List litems2
+  +List litems3
+  +_SpeakState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "project_resonator::pages::speak.dart::Speak"
+
+class "project_resonator::pages::speak.dart::_SpeakState" {
+  +FlutterTts flutterTts
+  -dynamic _newVoiceText
+  -dynamic _newDateText
+  +TtsState ttsState
+  -Map<dynamic, HighlightedWord> _highlights
+  -bool _turn
+  +List litems
+  +List litems2
+  +List litems3
+  +List litems4
+  +TextEditingController eCtrl
+  -SpeechToText _speech
+  -bool _isListening
+  -dynamic _text
+  -double _confidence
+  -TextStyle _style
+  +dynamic isPlaying
+  +dynamic isStopped
+  -void _save()
+  +void initState()
+  +dynamic initTts()
+  -Future _speak()
+  -void _getDate()
+  -void _onChange()
+  -void _create()
+  -void _saveDialog()
+  +Widget setupAlertDialoadContainer()
+  +Widget build()
+  -void _listen()
+}
+
+"project_resonator::pages::speak.dart::_SpeakState" o-- "flutter_tts::flutter_tts.dart::FlutterTts"
+"project_resonator::pages::speak.dart::_SpeakState" o-- "project_resonator::pages::speak.dart::TtsState"
+"project_resonator::pages::speak.dart::_SpeakState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"project_resonator::pages::speak.dart::_SpeakState" o-- "speech_to_text::speech_to_text.dart::SpeechToText"
+"project_resonator::pages::speak.dart::_SpeakState" o-- "flutter::src::painting::text_style.dart::TextStyle"
+"flutter::src::widgets::framework.dart::State<T>" <|-- "project_resonator::pages::speak.dart::_SpeakState"
+
+class "project_resonator::pages::learn.dart::Learn" {
+  +_LearnState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "project_resonator::pages::learn.dart::Learn"
+
+class "project_resonator::pages::learn.dart::_LearnState" {
+  +dynamic assett
+  +Widget svg
+  -TextStyle _style
+  +Widget build()
+}
+
+"project_resonator::pages::learn.dart::_LearnState" o-- "flutter::src::widgets::framework.dart::Widget"
+"project_resonator::pages::learn.dart::_LearnState" o-- "flutter::src::painting::text_style.dart::TextStyle"
+"flutter::src::widgets::framework.dart::State<T>" <|-- "project_resonator::pages::learn.dart::_LearnState"
+
+class "project_resonator::pages::awal.dart::Awal" {
+  +_AwalState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "project_resonator::pages::awal.dart::Awal"
+
+class "project_resonator::pages::awal.dart::_AwalState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State<T>" <|-- "project_resonator::pages::awal.dart::_AwalState"
+
+abstract class "project_resonator::services::db.dart::DB" {
+  {static} -Database _db
+  {static} -int _version
+  {static} +Future init()
+  {static} +void onCreate()
+  {static} +Future query()
+  {static} +Future insert()
+  {static} +Future update()
+  {static} +Future delete()
+}
+
+"project_resonator::services::db.dart::DB" o-- "sqflite_common::sqlite_api.dart::Database"
+
+
+@enduml
