@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:project_resonator/pages/learn.dart';
 import 'package:project_resonator/pages/speak.dart';
@@ -8,6 +11,7 @@ import 'package:project_resonator/pages/history.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:project_resonator/pages/splashscreen.dart';
 import 'package:project_resonator/services/db.dart';
 
 
@@ -35,16 +39,26 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.yellow,
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Resonator'),
+      home: SplashScreen(
+        'assets/splash.flr',
+        MyHomePage(title: 'Resonator',),
+        backgroundColor: Color(0xffffed9e),
+        loopAnimation: 'Untitled',
+        onSuccess: (_) {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyHomePage(title: 'Resonator',)));
+        },
+        until: ()=> Future.delayed(Duration(milliseconds: 0)),
+      ),
     );
   }
 }
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -83,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
       ),
 
-      
+
       bottomNavigationBar: bmnav.BottomNav(
         index: currentTab,
         onTap:(int i) {

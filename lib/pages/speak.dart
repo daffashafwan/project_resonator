@@ -221,6 +221,7 @@ class _SpeakState extends State<Speak> {
         repeatPauseDuration: const Duration(milliseconds: 100),
         repeat: true,
         child: FloatingActionButton(
+          heroTag: 'btn1',
           onPressed: _listen,
           child: Icon(_isListening ? Icons.mic : Icons.mic_none),
           

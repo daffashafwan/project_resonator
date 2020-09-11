@@ -29,6 +29,9 @@ dependencies:
   showcaseview: ^0.1.6
   intl: ^0.15.7
   flutter_svg: ^0.18.1
+  flare_splash_screen: ^2.0.1+2
+  flare_flutter: ^1.8.3
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -43,6 +46,13 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+  flutter_launcher_icons: "^0.7.3"
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/newIcon.png"
+
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -54,12 +64,7 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-           - assets/1.svg
-           - assets/2.svg
-           - assets/3.svg
-           - assets/1.png
-           - assets/2.png
-           - assets/3.png
+           - assets/
 
   # To add assets to your application, add an assets section, like this:
 
