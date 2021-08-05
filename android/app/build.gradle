@@ -41,6 +41,7 @@ android {
         applicationId "com.example.project_resonator"
         minSdkVersion 21
         targetSdkVersion 28
+	multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

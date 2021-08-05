@@ -45,16 +45,17 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: SplashScreen(
-        'assets/splash.flr',
-        MyHomePage(title: 'Resonator',),
-        backgroundColor: Color(0xffffed9e),
-        loopAnimation: 'Untitled',
-        onSuccess: (_) {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyHomePage(title: 'Resonator',)));
-        },
-        until: ()=> Future.delayed(Duration(milliseconds: 0)),
-      ),
+      home:MyHomePage(title: 'Resonator',) 
+      // SplashScreen(
+      //   'assets/splash.flr',
+      //   MyHomePage(title: 'Resonator',),
+      //   backgroundColor: Color(0xffffed9e),
+      //   loopAnimation: 'Untitled',
+      //   onSuccess: (_) {
+      //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyHomePage(title: 'Resonator',)));
+      //   },
+      //   until: ()=> Future.delayed(Duration(milliseconds: 0)),
+      // ),
     );
   }
 }
