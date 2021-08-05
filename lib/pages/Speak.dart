@@ -211,7 +211,7 @@ class _SpeakState extends State<Speak> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
         animate: _isListening,
