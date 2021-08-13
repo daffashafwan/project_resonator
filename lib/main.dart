@@ -23,9 +23,26 @@ void main() async{
 }
 
 class MyApp extends StatelessWidget {
+  Map<int, Color> color =
+  {
+    50:Color.fromRGBO(87, 195, 130, .1),
+    100:Color.fromRGBO(87, 195, 130, .2),
+    200:Color.fromRGBO(87, 195, 130, .3),
+    300:Color.fromRGBO(87, 195, 130, .4),
+    400:Color.fromRGBO(87, 195, 130, .5),
+    500:Color.fromRGBO(87, 195, 130, .6),
+    600:Color.fromRGBO(87, 195, 130, .7),
+    700:Color.fromRGBO(87, 195, 130, .8),
+    800:Color.fromRGBO(87, 195, 130, .9),
+    900:Color.fromRGBO(87, 195, 130, 1),
+
+
+  };
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    MaterialColor colorCustom = MaterialColor(0xFF57C382, color);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Resonator App',
@@ -39,7 +56,8 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.yellow,
+        primarySwatch: colorCustom,
+        primaryColor: colorCustom,
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
@@ -106,10 +124,11 @@ class _MyHomePageState extends State<MyHomePage> {
             currentTab = i;
           });
         },
+
         labelStyle: bmnav.LabelStyle(visible: false),
         iconStyle: bmnav.IconStyle(onSelectSize: 32.0),
         items: [
-          bmnav.BottomNavItem(Icons.book, label: 'Learn'),
+          bmnav.BottomNavItem(Icons.play_lesson_rounded, label: 'Learn'),
           bmnav.BottomNavItem(Icons.mic, label: 'Speak'),
           bmnav.BottomNavItem(Icons.bookmark, label: 'Saved')
         ],

@@ -14,14 +14,14 @@ class _AwalState extends State<Awal> {
           alignment: Alignment.center,
           margin: EdgeInsets.all(15),
           padding: EdgeInsets.all(10),
-          color: Colors.red,
+          color: Colors.blue,
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(25),
               gradient: LinearGradient(
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
-                  colors: <Color>[Colors.lightBlue, Colors.cyanAccent]),
+                  colors: <Color>[Colors.blue, Colors.cyanAccent]),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
