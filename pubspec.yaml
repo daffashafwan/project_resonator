@@ -28,7 +28,7 @@ dependencies:
   path_provider: ^1.6.0
   showcaseview: ^0.1.6
   intl: ^0.15.7
-  flutter_svg: ^0.18.1
+  flutter_svg: ^0.19.0-nullsafety.3
   flare_splash_screen: ^2.0.1+2
   flare_flutter: ^1.8.3
 
@@ -40,7 +40,7 @@ dependencies:
   highlight_text: ^0.7.2
   avatar_glow: ^1.2.0
   split_view: ^1.0.1
-  flutter_tts: 1.0.0
+  flutter_tts: ^3.2.2
 
 dev_dependencies:
   flutter_test:

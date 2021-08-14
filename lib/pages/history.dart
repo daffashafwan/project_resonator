@@ -61,11 +61,11 @@ class _HistoryState extends State<History> {
         return AlertDialog(
           title: Text("Hapus Kalimat"),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text('Tidak'),
               onPressed: () => Navigator.of(context).pop()
             ),
-            FlatButton(
+            TextButton(
               child: Text('Iya'),
               onPressed: () {_delete(item);Navigator.of(context).pop();} 
             )           
