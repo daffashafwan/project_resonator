@@ -31,6 +31,7 @@ dependencies:
   flutter_svg: ^0.22.0
   flare_splash_screen: ^4.0.0
   flare_flutter: ^3.0.2
+  http: ^0.13.3
 
 
   # The following adds the Cupertino Icons font to your application.
