@@ -10,14 +10,14 @@ class Learn extends StatefulWidget {
 
 class Album {
   final int id;
-  final String title;
+  final String url;
 
-  Album({this.id, this.title});
+  Album({this.id, this.url});
 
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
       id: json['id'],
-      title: json['title'],
+      url: json['transkrip']['alternative'][0]['transcript'],
     );
   }
 }
@@ -42,7 +42,7 @@ class _LearnState extends State<Learn> {
 
     if (response.statusCode == 200) {
       // If the server did return a 201 CREATED response,
-      // then parse the JSON.
+      // then parse the JSON
       print(jsonDecode(response.body));
       return Album.fromJson(jsonDecode(response.body));
     } else {
@@ -73,8 +73,20 @@ class _LearnState extends State<Learn> {
                       )
                   ),
                   TextField(
+                    textInputAction: TextInputAction.go,
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Color.fromRGBO(255, 255, 255, 1),
+                        border: OutlineInputBorder(
+                          borderRadius:
+                          const BorderRadius.all(
+                              Radius.circular(50)),
+                        ),
+                        hintText: 'Masukkan URL'),
                     controller: _controller,
-                    decoration: const InputDecoration(hintText: 'Enter Title'),
+
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -91,31 +103,6 @@ class _LearnState extends State<Learn> {
           padding: EdgeInsets.fromLTRB(12, 6, 12, 4),
           child: Card(
             child: Container(
-              color: Colors.white,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
-                child: Stack(
-                  children: <Widget>[
-                    Positioned(
-                      child: Image.asset(
-                        'assets/1.png',
-                      ),
-                    ),
-                    Positioned(
-                        bottom: 0,
-                        left: 0,
-                        child: Text('Bismillah Coba',
-                            style: TextStyle(fontSize: 40))),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(12, 6, 12, 4),
-          child: Card(
-            child: Container(
               color: Colors.blue,
               child: Padding(
                 padding: EdgeInsets.fromLTRB(5, 5, 5, 5),
@@ -123,7 +110,7 @@ class _LearnState extends State<Learn> {
                   future: _futureAlbum,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      return Text(snapshot.data.title?? "");
+                      return Text(snapshot.data.url);
                     } else if (snapshot.hasError) {
                       return Text('${snapshot.error}');
                     }
