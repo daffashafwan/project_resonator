@@ -28,7 +28,7 @@ class _AwalState extends State<Awal> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(num.toString(), style: TextStyle(fontSize: num.toDouble()),),
-                RaisedButton(
+                ElevatedButton(
                   child: Text('Tambah Bilangan'),
                   onPressed: press,
                 )

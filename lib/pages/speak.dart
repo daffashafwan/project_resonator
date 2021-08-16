@@ -11,7 +11,6 @@ import 'dart:core';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:project_resonator/models/history-item.dart';
-import 'package:project_resonator/services/db.dart';
 import 'package:intl/intl.dart';
 
 class Speak extends StatefulWidget {
@@ -134,7 +133,7 @@ class _SpeakState extends State<Speak> {
           return AlertDialog(
             title: Text("Riwayat Percakapan"),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Close'),
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -154,14 +153,14 @@ class _SpeakState extends State<Speak> {
           return AlertDialog(
             title: Text("Simpan Riwayat ?"),
             actions: <Widget>[
-              FlatButton(
+              TextButton(
                 child: Text('Close'),
                 onPressed: () {
                   Navigator.of(context).pop();
                   FocusScope.of(context).previousFocus();
                 },
               ),
-              FlatButton(
+              TextButton(
                 child: Text('Save'),
                 onPressed: () {
                   _save(index);

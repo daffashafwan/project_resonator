@@ -84,11 +84,11 @@ class _PenyimpananState extends State<Penyimpanan> {
         return AlertDialog(
           title: Text("Tambah Kalimat Baru"),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text('Cancel'),
               onPressed: () => Navigator.of(context).pop()
             ),
-            FlatButton(
+            TextButton(
               child: Text('Save'),
               onPressed: () => _save()
             )           
