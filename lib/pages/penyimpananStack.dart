@@ -3,10 +3,12 @@ import 'package:project_resonator/pages/learn.dart';
 import 'package:project_resonator/pages/speak.dart';
 import 'package:project_resonator/pages/awal.dart';
 import 'package:project_resonator/pages/penyimpanan.dart';
-import 'package:project_resonator/pages/history.dart';
+import 'package:project_resonator/pages/speechToText.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:project_resonator/pages/textToSpeech.dart';
+import 'package:project_resonator/pages/transcribeYoutube.dart';
 import 'package:project_resonator/services/db.dart';
 
 class PenyimpananStack extends StatefulWidget {
@@ -44,10 +46,10 @@ class _PenyimpananStackState extends State<PenyimpananStack> {
                   padding: EdgeInsets.only(left: 12, right: 12),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey, width: 0.2),
+                    border: Border.all(color: Colors.grey, width: 0.5),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.05),
+                        color: Colors.white60.withOpacity(0.5),
                         spreadRadius: 5,
                         blurRadius: 5,
                         offset: const Offset(0, 3), // changes position of shadow
@@ -102,9 +104,10 @@ class _PenyimpananStackState extends State<PenyimpananStack> {
             Expanded(
               child: IndexedStack(
                 children: <Widget>[
-                  History(),
                   Penyimpanan(),
-
+                  TexttoSpeech(),
+                  SpeechtoText(),
+                  TranscribeYoutube(),
                 ],
                 index: currentTab,
               ),

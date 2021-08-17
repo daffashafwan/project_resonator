@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:project_resonator/models/saved-item.dart';
 import 'package:project_resonator/services/db.dart';
-import 'package:project_resonator/pages/history.dart';
+import 'package:project_resonator/pages/speechToText.dart';
 
 class Penyimpanan extends StatefulWidget {
   _PenyimpananState createState() => _PenyimpananState();

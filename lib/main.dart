@@ -7,7 +7,7 @@ import 'package:project_resonator/pages/speak.dart';
 import 'package:project_resonator/pages/awal.dart';
 import 'package:project_resonator/pages/penyimpanan.dart';
 import 'package:project_resonator/pages/penyimpananStack.dart';
-import 'package:project_resonator/pages/history.dart';
+import 'package:project_resonator/pages/speechToText.dart';
 import 'package:bmnav/bmnav.dart' as bmnav;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
