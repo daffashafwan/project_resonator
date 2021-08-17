@@ -55,23 +55,21 @@ class _LearnState extends State<Learn> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    String videoId;
+  Future<YoutubePlayer> createVideo(String videoID) async {
     YoutubePlayerController _youtubePlayerController = YoutubePlayerController(
-      initialVideoId: videoId,
+      initialVideoId: videoID,
       flags: YoutubePlayerFlags(
-        autoPlay: true,
-        mute: true,
+        autoPlay: false,
+        mute: false,
       ),
     );
-    Future<YoutubePlayer> createVideo(String url) async {
-      return YoutubePlayer(
-        controller: _youtubePlayerController,
-        showVideoProgressIndicator: true,
-      );
-    }
-
+    return YoutubePlayer(
+      controller: _youtubePlayerController,
+      showVideoProgressIndicator: true,
+    );
+  }
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
           child: ListView(itemExtent: 200, children: <Widget>[
@@ -104,9 +102,8 @@ class _LearnState extends State<Learn> {
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        videoId = YoutubePlayer.convertUrlToId(_controller.text);
                         _futureAlbum = createAlbum(_controller.text);
-                        _futureYoutube = createVideo(_controller.text);
+                        _futureYoutube = createVideo(YoutubePlayer.convertUrlToId(_controller.text));
                       });
                     },
                     child: const Text('Create Data'),
