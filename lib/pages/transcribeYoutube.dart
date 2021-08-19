@@ -49,16 +49,6 @@ class _TranscribeYoutubeState extends State<TranscribeYoutube> {
                           _deleteDialog(item);
                         },
                       ),
-                      IconButton(
-                        padding: new EdgeInsets.only(bottom: 3),
-                        icon: const Icon(Icons.play_arrow_rounded, size: 40,),
-                        onPressed: () {
-                          setState(() {
-                            voice = item.kalimat;
-                          });
-                          _speak();
-                        },
-                      )
                     ],
                   ),
                   subtitle: Text(item.timestamp, style: _style_2),

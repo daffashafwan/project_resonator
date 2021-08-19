@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project_resonator/pages/learn.dart';
+import 'package:project_resonator/pages/transcribe.dart';
 import 'package:project_resonator/pages/speak.dart';
 import 'package:project_resonator/pages/awal.dart';
 import 'package:project_resonator/pages/penyimpanan.dart';

@@ -14,9 +14,7 @@ class Penyimpanan extends StatefulWidget {
 
 enum TtsState { playing, stopped }
 
-
 class _PenyimpananState extends State<Penyimpanan> {
-
   FlutterTts flutterTts;
   TtsState ttsState = TtsState.stopped;
 
@@ -31,89 +29,108 @@ class _PenyimpananState extends State<Penyimpanan> {
   List<Widget> get _items => _kalimat.map((item) => format(item)).toList();
 
   Widget format(SavedItem item) {
-
     return Dismissible(
       key: Key(item.id.toString()),
       child: Padding(
         padding: EdgeInsets.fromLTRB(12, 6, 12, 4),
-        child: Card(
-          child: ListTile(
-            title: Text(item.kalimat, style: _style),
-            onTap: (){
-              setState(() {
-                voice = item.kalimat;
-              });
-              _speak();
-              },
-          ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Container(
+              decoration: new BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Card(
+                color: Color.fromRGBO(87, 195, 130, .6),
+                child: ListTile(
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.delete, size: 30,),
+                        onPressed: (){
+                          _delete(item);
+                        },
+                      ),
+                      IconButton(
+                        padding: new EdgeInsets.only(bottom: 3),
+                        icon: const Icon(Icons.play_arrow_rounded, size: 40,),
+                        onPressed: () {
+                          setState(() {
+                            voice = item.kalimat;
+                          });
+                          _speak();
+                        },
+                      )
+                    ],
+                  ),
+                  title: Text(item.kalimat, style: _style),
+                ),
+              ),
+            )
+          ],
         ),
       ),
       onDismissed: (DismissDirection direction) => _delete(item),
     );
   }
 
-  void start() async{
+  void start() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-  await DB.init();
-
+    await DB.init();
   }
+
   void _delete(SavedItem item) async {
-    
     DB.delete(SavedItem.table, item);
     refresh();
   }
 
   void _save() async {
-
     Navigator.of(context).pop();
     SavedItem item = SavedItem(
       kalimat: kalimat,
     );
 
     await DB.insert(SavedItem.table, item);
-    setState(() => kalimat = '' );
+    setState(() => kalimat = '');
     refresh();
   }
 
   void _create(BuildContext context) {
-
     showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Tambah Kalimat Baru"),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Cancel'),
-              onPressed: () => Navigator.of(context).pop()
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Tambah Kalimat Baru"),
+            actions: <Widget>[
+              TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () => Navigator.of(context).pop()),
+              TextButton(child: Text('Save'), onPressed: () => _save())
+            ],
+            content: TextField(
+              autofocus: true,
+              decoration: InputDecoration(
+                  labelText: 'Isi Kalimat', hintText: 'cth. Selamat Pagi'),
+              onChanged: (value) {
+                kalimat = value;
+              },
             ),
-            TextButton(
-              child: Text('Save'),
-              onPressed: () => _save()
-            )           
-          ],
-          content: TextField(
-            autofocus: true,
-            decoration: InputDecoration(labelText: 'Isi Kalimat', hintText: 'cth. Selamat Pagi'),
-            onChanged: (value) { kalimat = value; },
-          ),
-        );
-      }
-    );
+          );
+        });
   }
 
-  void initState(){
+  void initState() {
     //start();
     refresh();
     initTts();
     super.initState();
-    
   }
 
   initTts() {
     flutterTts = FlutterTts();
-
 
     flutterTts.setStartHandler(() {
       setState(() {
@@ -149,36 +166,34 @@ class _PenyimpananState extends State<Penyimpanan> {
   }
 
   void refresh() async {
-
     List<Map<String, dynamic>> _results = await DB.query(SavedItem.table);
     _kalimat = _results.map((item) => SavedItem.fromMap(item)).toList();
-    setState(() { });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: Padding(
-              padding: EdgeInsets.fromLTRB(12, 6, 12, 4),
-              child: Card(
-                child: ListView( children: _items ),
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(12, 6, 12, 4),
+                  child: Card(
+                    child: ListView(children: _items),
+                  ),
+                ),
               ),
-            ),
-            ),
-            
-
-          ],
+            ],
+          ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () { _create(context); },
-        tooltip: 'New TODO',
-        child: Icon(Icons.library_add),
-      )
-    );
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _create(context);
+          },
+          tooltip: 'New TODO',
+          child: Icon(Icons.library_add),
+        ));
   }
 }
