@@ -1,20 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
+import 'package:project_resonator/models/history-item.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:project_resonator/models/saved-item.dart';
 import 'package:project_resonator/services/db.dart';
-import 'package:project_resonator/pages/speechToText.dart';
+import 'package:project_resonator/pages/penyimpanan.dart';
 
-class Penyimpanan extends StatefulWidget {
-  _PenyimpananState createState() => _PenyimpananState();
-  Penyimpanan({Key key}) : super(key: key);
+class TranscribeYoutube extends StatefulWidget {
+  _TranscribeYoutubeState createState() => _TranscribeYoutubeState();
+  TranscribeYoutube({Key key}) : super(key: key);
 }
 
 enum TtsState { playing, stopped }
 
-class _PenyimpananState extends State<Penyimpanan> {
+class _TranscribeYoutubeState extends State<TranscribeYoutube> {
   FlutterTts flutterTts;
   TtsState ttsState = TtsState.stopped;
 
@@ -22,27 +20,25 @@ class _PenyimpananState extends State<Penyimpanan> {
 
   get isStopped => ttsState == TtsState.stopped;
   String voice;
-  String kalimat;
-  List<SavedItem> _kalimat = [];
-  TextStyle _style = TextStyle(color: Colors.black, fontSize: 15);
-
+  List<HistoryItem> _kalimat = [];
   List<Widget> get _items => _kalimat.map((item) => format(item)).toList();
 
-  Widget format(SavedItem item) {
+  TextStyle _style = TextStyle(color: Colors.black, fontSize: 18);
+  TextStyle _style_2 = TextStyle(color: Colors.black, fontSize: 12);
+
+  Widget format(HistoryItem item) {
     return Dismissible(
       key: Key(item.id.toString()),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(12, 6, 12, 4),
+        padding: EdgeInsets.fromLTRB(12, 6, 10, 4),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Container(
-              decoration: new BoxDecoration(
-                borderRadius: BorderRadius.circular(24),
-              ),
               child: Card(
                 color: Color.fromRGBO(87, 195, 130, .6),
                 child: ListTile(
+                  title: Text(item.kalimat, style: _style),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -50,83 +46,53 @@ class _PenyimpananState extends State<Penyimpanan> {
                       IconButton(
                         icon: const Icon(Icons.delete, size: 30,),
                         onPressed: (){
-                          _delete(item);
+                          _deleteDialog(item);
                         },
                       ),
-                      IconButton(
-                        padding: new EdgeInsets.only(bottom: 3),
-                        icon: const Icon(Icons.play_arrow_rounded, size: 40,),
-                        onPressed: () {
-                          setState(() {
-                            voice = item.kalimat;
-                          });
-                          _speak();
-                        },
-                      )
                     ],
                   ),
-                  title: Text(item.kalimat, style: _style),
+                  subtitle: Text(item.timestamp, style: _style_2),
+                  //isThreeLine: true,
                 ),
               ),
-            )
+              decoration: new BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+              ),
+            ),
           ],
         ),
       ),
-      onDismissed: (DismissDirection direction) => _delete(item),
     );
   }
 
-  void start() async {
-    WidgetsFlutterBinding.ensureInitialized();
-
-    await DB.init();
-  }
-
-  void _delete(SavedItem item) async {
-    DB.delete(SavedItem.table, item);
-    refresh();
-  }
-
-  void _save() async {
-    Navigator.of(context).pop();
-    SavedItem item = SavedItem(
-      kalimat: kalimat,
-    );
-
-    await DB.insert(SavedItem.table, item);
-    setState(() => kalimat = '');
-    refresh();
-  }
-
-  void _create(BuildContext context) {
+  void _deleteDialog(HistoryItem item) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Tambah Kalimat Baru"),
+            title: Text("Hapus Kalimat"),
             actions: <Widget>[
               TextButton(
-                  child: Text('Cancel'),
+                  child: Text('Tidak'),
                   onPressed: () => Navigator.of(context).pop()),
-              TextButton(child: Text('Save'), onPressed: () => _save())
+              TextButton(
+                  child: Text('Iya'),
+                  onPressed: () {
+                    _delete(item);
+                    Navigator.of(context).pop();
+                  })
             ],
-            content: TextField(
-              autofocus: true,
-              decoration: InputDecoration(
-                  labelText: 'Isi Kalimat', hintText: 'cth. Selamat Pagi'),
-              onChanged: (value) {
-                kalimat = value;
-              },
-            ),
+            content: Text('Apakah anda ingin menghapus ?'),
           );
         });
   }
 
   void initState() {
     //start();
-    refresh();
-    initTts();
+
     super.initState();
+    initTts();
+    refresh();
   }
 
   initTts() {
@@ -165,16 +131,29 @@ class _PenyimpananState extends State<Penyimpanan> {
     }
   }
 
-  void refresh() async {
-    List<Map<String, dynamic>> _results = await DB.query(SavedItem.table);
-    _kalimat = _results.map((item) => SavedItem.fromMap(item)).toList();
+  void _delete(HistoryItem item) async {
+    DB.delete(HistoryItem.table, item);
+    refresh();
+  }
+
+  Future refresh() async {
+    List<Map<String, dynamic>> _results = await DB.query(HistoryItem.table);
+    _kalimat = _results.map((item) => HistoryItem.fromMap(item)).toList();
     setState(() {});
   }
+
+  String dropdownValue = 'One';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
+      //floatingActionButton: FloatingActionButton(
+      //  onPressed: () { refresh();},
+      //  tooltip: 'Refresh',
+      //  child: Icon(Icons.refresh),
+      //),
+      body: Center(
+        child: RefreshIndicator(
           child: Column(
             children: <Widget>[
               Expanded(
@@ -187,13 +166,9 @@ class _PenyimpananState extends State<Penyimpanan> {
               ),
             ],
           ),
+          onRefresh: refresh,
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _create(context);
-          },
-          tooltip: 'New TODO',
-          child: Icon(Icons.library_add),
-        ));
+      ),
+    );
   }
 }

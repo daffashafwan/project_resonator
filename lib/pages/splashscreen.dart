@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project_resonator/main.dart';
 
-import 'package:project_resonator/pages/learn.dart';
+import 'package:project_resonator/pages/transcribe.dart';
 
 import 'dart:async';
 
