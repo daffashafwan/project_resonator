@@ -10,7 +10,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="Resonator Apps"
+        android:label="TULIS"
         android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"

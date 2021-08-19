@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
     MaterialColor colorCustom = MaterialColor(0xFF57C382, color);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Resonator App',
+      title: 'TULIS',
       theme: ThemeData(
         // This is the theme of your application.
         //
