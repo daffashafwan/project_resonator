@@ -206,7 +206,12 @@ class _LearnState extends State<Learn> {
                             if (snapshot.hasData && (_refreshed == false)) {
                               return new SingleChildScrollView(
                                 scrollDirection: Axis.vertical,
-                                child: Text(snapshot.data.url),
+                                child: Text(
+                                  snapshot.data.url,
+                                  style: new TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
                               );
                             } else if (snapshot.hasError) {
                               return Text('${snapshot.error}');

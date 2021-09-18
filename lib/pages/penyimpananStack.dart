@@ -76,21 +76,9 @@ class _PenyimpananStackState extends State<PenyimpananStack> {
                             dropdownValue = 'Text-to-Speech';
                           });
                           break;
-                        case "Speech-to-Text" :
-                          setState(() {
-                            currentTab = 2;
-                            dropdownValue = 'Speech-to-Text';
-                          });
-                          break;
-                        case "Transcribe Youtube" :
-                          setState(() {
-                            currentTab = 3;
-                            dropdownValue = 'Transcribe Youtube';
-                          });
-                          break;
                       }
                     },
-                    items: <String>['Template', 'Text-to-Speech', 'Speech-to-Text', 'Transcribe Youtube']
+                    items: <String>['Template', 'Text-to-Speech']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -106,8 +94,6 @@ class _PenyimpananStackState extends State<PenyimpananStack> {
                 children: <Widget>[
                   Penyimpanan(),
                   TexttoSpeech(),
-                  SpeechtoText(),
-                  TranscribeYoutube(),
                 ],
                 index: currentTab,
               ),
